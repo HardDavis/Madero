@@ -1,0 +1,40 @@
+- receber menu (menu.show())
+
+- anotar pedido (request.add(item))
+- associar mesa ao pedido (request.table(int)) --> herança
+- finalizar pedido (request.finish())
+
+- adicionar débito na conta da mesa (table.account(request.value))
+
+
+pedido:
+    pedido.valorTotal
+    pedido.itens
+    pedido.status
+
+conta extends pedido
+    conta.valorTatal
+    conta.itens
+    conta.stts (pago/a pagar)
+
+mesa extends conta
+    mesa.valorTatal
+    mesa.itens
+    mesa.stts --> ocupada/livre
+    mesa.conta
+
+
+
+Inicio do programa:
+
+1. Mesa 1 - OCUPADA
+2. Mesa 2 - LIVRE
+
+Escolha a mesa: 2
+
+1. Mostrar menu
+2. Fazer pedido/abrir conta
+3. Verificar pedidos
+4. Fechar conta
+
+Escolha uma opção: 
