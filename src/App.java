@@ -30,34 +30,37 @@ public class App {
             //options.add("4.2. Emitir nota");
         options.add("5. Voltar");
 
-        do{
-            System.out.print("\033[H\033[2J");
+        do {
+            System.out.print("\033[H\033[2J"); // --> clear terminal
             System.out.flush();
 
             mesas.exibir_mesas(mesaList);
-            System.out.print("\nEcolha a mesa: ");
+            
+            System.out.print("\nEscolha a mesa: ");
             opt_me = scan.nextInt();
-            boolean g;
-            if(opt_me != 0){
-                g = true;
-                do{
+            
+            boolean aux;
+            
+            if (opt_me != 0){
+                aux = true;
+                do {
                     for (int i = 0; i < options.size(); i++){
                         System.out.println(options.get(i));
                     }
                     System.out.print("\nEscolha uma opção: ");
                     opt = scan.nextInt();
     
-                    if(opt == 1){
+                    if (opt == 1) {
                         menu.exibir_menu(menuList);
-                    }else if(opt == 5){
-                        g = false;
+                    } else if (opt == 5){
+                        aux = false;
                     }
-                }while(g != false);
-            }else{
-                g = false;
+                } while (aux);
+            } else {
+                aux = false;
             }
 
-        }while(opt_me != 0);
+        } while (opt_me != 0);
 
         scan.close();
     }
