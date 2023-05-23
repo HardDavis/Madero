@@ -38,3 +38,61 @@ Escolha a mesa: 2
 4. Fechar conta
 
 Escolha uma opção: 
+
+
+
+
+
+
+METODOS GET E SET DA CLASS ITEM
+//Name
+    public String getName() {
+        return name;
+    }
+    public void setName(String nm) {
+        this.name = nm;
+    }
+
+    //Value
+    public double getValue() {
+        return value;
+    }
+    public void setValue(double val) {
+        this.value = val;
+    }
+    
+    //Ingredients
+    public String getIng() {
+        return ing;
+    }
+    public void setIng(String ing) {
+        this.ing = ing;
+    }
+    
+
+    //Informations
+    public String getInfo() {
+        return info;
+    }
+    public void setInfo(String inf) {
+        this.info = inf;
+    }
+
+
+    //Availability
+    public boolean getAvailability() {
+        return availability;
+    }
+    public void setAvailability(boolean avai) {
+        this.availability = avai;
+    }
+
+
+
+
+new Timer().scheduleAtFixedRate(new TimerTask(){
+    @Override
+    public void run(){
+       Log.i("tag", "A Kiss every 5 seconds");
+    }
+}, 0, 5000);

@@ -2,13 +2,10 @@ import java.util.ArrayList;
 
 public class Mesa{
     boolean status;
+    ArrayList<Item> pedido = new ArrayList<Item>();
 
     public Mesa(){
         this.status = true;
-    }
-
-    public boolean getStatus(){
-        return status;
     }
 
     public void exibir_mesas(ArrayList<Mesa> mesaList){
@@ -22,9 +19,19 @@ public class Mesa{
     }
 
     public void cria_mesas(ArrayList<Mesa> mesaList){
-        mesaList.add(new Mesa());
-        mesaList.add(new Mesa());
-        mesaList.add(new Mesa());
-        mesaList.add(new Mesa());
+        for(int i = 0; i < 4; i++){
+            mesaList.add(new Mesa());
+        }
+    }
+
+    public void addItem(int pd, int opt_me, ArrayList<Item> menuList, ArrayList<Mesa> mesaList){
+        mesaList.get(opt_me - 1).pedido.add(menuList.get(pd - 1));
+    }
+
+    public void exibPedi(int opt_me, ArrayList<Mesa> mesaList){
+        for(int i = 0; i < mesaList.get(opt_me - 1).pedido.size(); i++){
+            int g = 1;
+            System.out.println(g + "x " + mesaList.get(opt_me - 1).pedido.get(i).name + "\tR$" + mesaList.get(opt_me - 1).pedido.get(i).value);
+        }  
     }
 }
