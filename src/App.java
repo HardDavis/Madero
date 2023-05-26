@@ -9,13 +9,13 @@ public class App {
         Menu menu = new Menu();
         int opt, opt_me;
         
-        ArrayList<Mesa> mesaList = new ArrayList<Mesa>();
-        ArrayList<Item> menuList = new ArrayList<Item>();
+        ArrayList<Mesa> mesaList = new ArrayList<>();
+        ArrayList<Item> menuList = new ArrayList<>();
         
         mesas.cria_mesas(mesaList);
         menu.cria_itens(menuList);
         
-        ArrayList<String> options = new ArrayList<String>();
+        ArrayList<String> options = new ArrayList<>();
         options.add("1. Consultar menu");
         //    options.add("1.1. Hamburgers")
         //    options.add("1.2. Bebidas")
@@ -97,8 +97,7 @@ public class App {
                         
                     } else if (opt == 3) { // --> 3. VERIFICAR PEDIDOS.
                         mesas.exibPedi(opt_me, mesaList);
-                        
-                        
+                    
                     } else if (opt == 4) { // --> 4. FECHAR CONTA.
                         
                         
