@@ -1,7 +1,7 @@
 public class Item {
-    String name, ing, info;
-    double value;
-    boolean availability;
+    private String name, ing, info;
+    private double value;
+    private boolean availability;
 
     public Item(String nm, double val, String ing, String inf, boolean avai){
         this.name = nm;
@@ -13,6 +13,26 @@ public class Item {
 
     public Item(){
         
+    }
+
+    public double getValue(){
+        return this.value;
+    }
+    
+    public String getName(){
+        return this.name;
+    }
+
+    public String getIng(){
+        return this.ing;
+    }
+
+    public String getInfo(){
+        return this.info;
+    }
+
+    public Boolean isAvaiability(){
+        return this.availability;
     }
 
 

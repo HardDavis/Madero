@@ -1,16 +1,13 @@
 import java.util.ArrayList;
 
 public class Menu{
-    
+
     public void exibir_menu(ArrayList<Item> menuList){
         for (int i = 0; i < menuList.size(); i++) {
-            int valor = Double.toString(menuList.get(i).value).length() + 2;
-            valor = 7;
-            /* System.out.println(valor); */
-            String num_name = (i+1) + " - " + menuList.get(i).name;
-            int tam = 30 - num_name.length() + valor;
-            /* System.out.println((i+1) + " - " + menuList.get(i).name + "\tR$" + menuList.get(i).value);  */
-                System.out.println((i+1) + " - " + menuList.get(i).name + dots(tam) + "R$" + String.format("%.2f",menuList.get(i).value));
+            String preco = (menuList.get(i).getValue() < 10.00) ? String.format("0%.2f", menuList.get(i).getValue()) : String.format("%.2f", menuList.get(i).getValue());
+            String num_name = (i+1) + " - " + menuList.get(i).getName();
+            int tam = 30 - num_name.length() + 10;
+            System.out.println((i+1) + " - " + menuList.get(i).getName() + dots(tam) + "R$" + preco);
             
         }
     }
