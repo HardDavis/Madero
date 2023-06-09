@@ -15,71 +15,79 @@ public class App {
         mesas.cria_mesas(mesaList);
         menu.cria_itens(menuList);
 
-        ArrayList<String> options = new ArrayList<>();
-        options.add("1. Consultar menu");
-        // options.add("1.1. Hamburgers")
-        // options.add("1.2. Bebidas")
-        // options.add("1.3. Aperitivos")
+        /*
+         * while (true) {
+         * 
+         * ArrayList<String> options = new ArrayList<>();
+         * options.add("1. Consultar menu");
+         * // options.add("1.1. Hamburgers")
+         * // options.add("1.2. Bebidas")
+         * // options.add("1.3. Aperitivos")
+         * 
+         * options.add("2. Fazer pedido/abrir conta");
+         * // options.add("2.1. Adicionar item");
+         * // options.add("2.1.1. Adicionais");
+         * // options.add("2.2. Remover item");
+         * // options.add("2.3 Finalizar pedido");
+         * // options.add("2.4 Cancelar pedido");
+         * // options.add("2.5 Voltar");
+         * 
+         * options.add("3. Verificar pedido");
+         * options.add("4. Fechar conta");
+         * // options.add("4.1. Pagar conta");
+         * // options.add("4.1.2 Selecionar opção de pagamento")
+         * // options.add("4.1.2.1 PIX")
+         * // options.add("4.1.2.2 Dinheiro")
+         * // options.add("4.1.2.3 Cartão")
+         * // options.add("4.1.2.3.2 Crédito")
+         * // options.add("4.1.2.3.3 Debito")
+         * // options.add("4.1.X. Emitir nota");
+         * // options.add("4.2 Voltar");
+         * options.add("0. Voltar");
+         * }
+         */
 
-        options.add("2. Fazer pedido/abrir conta");
-        // options.add("2.1. Adicionar item");
-        // options.add("2.1.1. Adicionais");
-        // options.add("2.2. Remover item");
-        // options.add("2.3 Finalizar pedido");
-        // options.add("2.4 Cancelar pedido");
-        // options.add("2.5 Voltar");
-
-        options.add("3. Verificar pedido");
-        options.add("4. Fechar conta");
-        // options.add("4.1. Pagar conta");
-        // options.add("4.1.2 Selecionar opção de pagamento")
-        // options.add("4.1.2.1 PIX")
-        // options.add("4.1.2.2 Dinheiro")
-        // options.add("4.1.2.3 Cartão")
-        // options.add("4.1.2.3.2 Crédito")
-        // options.add("4.1.2.3.3 Debito")
-        // options.add("4.1.X. Emitir nota");
-        // options.add("4.2 Voltar");
-        options.add("0. Voltar");
+        String opcoes = "1. Consultar menu\n" +
+                "2. Fazer pedido/abrir conta\n" +
+                "3. Verificar pedido\n" +
+                "4. Fechar conta\n" +
+                "0. Voltar";
 
         do {
-            System.out.print("\033[H\033[2J");
+            System.out.print("\033[H\033[2J"); // LIMPA TERMINAL
             System.out.flush();
 
-            mesas.exibir_mesas(mesaList);
+            mesas.exibir_mesas(mesaList); // EXIBE MESAS
 
-            System.out.print("\nEscolha a mesa: ");
+            System.out.print("\nEscolha a mesa: "); // ESCOLHA DE MESA
             opt_me = scan.nextInt();
 
-            System.out.print("\033[H\033[2J");
+            System.out.print("\033[H\033[2J"); // LIMPA TERMINAL
             System.out.flush();
 
-            boolean aux;
-
             if (opt_me != 0) {
-                aux = true;
+                boolean aux = true;
 
                 do {
-                    for (int i = 0; i < options.size(); i++) {
-                        System.out.println(options.get(i));
-                    }
+                    System.out.println(opcoes);
 
                     System.out.print("\nEscolha uma opção: ");
                     opt = scan.nextInt();
 
                     // SELEÇÃO DAS OPÇÕES A PARTIR DAQUI
                     if (opt == 1) { // --> 1. EXIBE MENU
-
                         do {
                             System.out.print("\nMENU:\n");
                             menu.exibir_menu(menuList);
-                            System.out.println("\n0 - Voltar");
 
-                            System.out.print("\nEscolha um item: ");
+                            System.out.print(
+                                    "\nDigite o número do item para mostrar suas informações ou 0 para voltar: ");
                             opt = scan.nextInt();
+
                             if (opt != 0) {// --> EXIBI AS INFORÇÕES DO ITEM SELECIONADO
                                 System.out.println(menuList.get(opt - 1));
                             }
+
                         } while (opt != 0);
 
                     } else if (opt == 2) { // --> 2. FAZER PEDIDO/ABRIR CONTA
@@ -87,12 +95,6 @@ public class App {
                         do {
                             System.out.println(
                                     "1. Adicionar item\n2. Remover item\n3. Finalizar pedido\n4. Cancelar pedido\n\n0 - Voltar");
-
-                            // options.add("2.1. Adicionar item");
-                            // options.add("2.2. Remover item");
-                            // options.add("2.3 Finalizar pedido");
-                            // options.add("2.4 Cancelar pedido");
-                            // options.add("2.5 Voltar");
 
                             System.out.print("\nEscolha uma opção: ");
                             opt = scan.nextInt();
@@ -106,6 +108,14 @@ public class App {
 
                                     if (pd != 0) {
                                         mesas.addItem(pd, opt_me, menuList, mesaList);
+                                    } else {
+                                        System.out.print("\033[H\033[2J"); // LIMPA TERMINAL
+                                        System.out.flush();
+
+                                        mesas.setTotalPedido(opt_me, mesaList);
+
+                                        System.out.println("\n");
+                                        mesas.exibPedi(opt_me, mesaList);
                                     }
                                 } while (pd != 0);
 
@@ -115,9 +125,13 @@ public class App {
                                 System.out.print("Qual item deseja remover: ");
                                 pd = scan.nextInt();
 
-                                mesas.remov_item(pd, opt_me, mesaList);
+                                mesas.remov_item(pd, opt_me, menuList, mesaList);
 
                             } else if (opt == 3) { // 3. FINALIZAR PEDIDO
+                                mesas.setTotalPedido(opt_me, mesaList);
+                                mesas.mudaStts(opt_me, mesaList);
+
+                                opt = 0;
 
                             } else if (opt == 4) { // 4. CANCELAR PEDIDO
 
@@ -128,6 +142,7 @@ public class App {
                         } while (opt != 0);
 
                     } else if (opt == 3) { // --> 3. VERIFICAR PEDIDOS.
+                        mesas.setTotalPedido(opt_me, mesaList);
                         mesas.exibPedi(opt_me, mesaList);
 
                     } else if (opt == 4) { // --> 4. FECHAR CONTA.
