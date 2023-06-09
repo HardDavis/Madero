@@ -1,4 +1,5 @@
 public class Item {
+    public int qnt = 0;
     private String name, ing, info;
     private double value;
     private boolean availability;
