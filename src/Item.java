@@ -1,5 +1,5 @@
 public class Item {
-    public int qnt = 0;
+    private int qnt = 1;
     private String name, ing, info;
     private double value;
     private boolean availability;
@@ -14,6 +14,15 @@ public class Item {
 
     public Item(){
         
+    }
+
+    public int getQnt(){
+        return this.qnt;
+    
+    }
+
+    public void setQnt(int qnt){
+        this.qnt = qnt;
     }
 
     public double getValue(){

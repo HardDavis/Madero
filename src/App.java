@@ -86,7 +86,7 @@ public class App {
                         int pd;
                         do {
                             System.out.println(
-                                    "1. Adicionar item\n2. Remover item\n3. Finalizar pedido\n4. Cancelar pedido\n5. Voltar");
+                                    "1. Adicionar item\n2. Remover item\n3. Finalizar pedido\n4. Cancelar pedido\n\n0 - Voltar");
 
                             // options.add("2.1. Adicionar item");
                             // options.add("2.2. Remover item");
@@ -105,18 +105,17 @@ public class App {
                                     pd = scan.nextInt();
 
                                     if (pd != 0) {
-                                        mesas.addItem(opt, opt_me, menuList, mesaList);
+                                        mesas.addItem(pd, opt_me, menuList, mesaList);
                                     }
                                 } while (pd != 0);
 
+                            } else if (opt == 2) { // 2. REMOVE ITEM
                                 mesas.exibPedi(opt_me, mesaList); // mostrar lista
 
-                            } else if (opt == 2) { // 2. REMOVE ITEM
                                 System.out.print("Qual item deseja remover: ");
                                 pd = scan.nextInt();
 
-                                mesas.remov_item(pd);
-                                mesas.exibPedi(opt_me, mesaList); // mostrar lista
+                                mesas.remov_item(pd, opt_me, mesaList);
 
                             } else if (opt == 3) { // 3. FINALIZAR PEDIDO
 
