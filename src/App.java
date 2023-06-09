@@ -105,7 +105,7 @@ public class App {
                                     pd = scan.nextInt();
 
                                     if (pd != 0) {
-                                        mesas.addItem(opt, opt_me, menuList, mesaList);
+                                        mesas.addItem(pd, opt_me, menuList, mesaList);
                                     }
                                 } while (pd != 0);
 
