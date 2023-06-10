@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Mesa {
     boolean status = true;
-    double totalPedido;
+    private double totalPedido;
     ArrayList<Item> pedido = new ArrayList<Item>();
     Scanner scan = new Scanner(System.in);
 
@@ -57,6 +57,10 @@ public class Mesa {
         }
     }
 
+    public double getTotalPedido() {
+        return this.totalPedido;
+    }
+
     public void exibPedi(int opt_me, ArrayList<Mesa> mesaList, ArrayList<Item> menuList) {
         StringBuilder pedido = new StringBuilder();
         pedido.setLength(0);
@@ -87,7 +91,7 @@ public class Mesa {
             }
             pedido.append("\nTotal: " + "R$" + String.format("%.2f", mesaList.get(opt_me - 1).totalPedido) + "\n");
         } else {
-            pedido.append("\nAinda não foi feito nenhum pedido!\n");
+            pedido.append("\nPedido vazio\n");
         }
         System.out.println(pedido);
     }
@@ -114,4 +118,55 @@ public class Mesa {
         }
         return qtd;
     }
+
+    public void fecharConta(int opt_me, ArrayList<Mesa> mesaList, ArrayList<Item> menuList){
+        Scanner scan = new Scanner(System.in);
+        int form_pag;
+
+        exibPedi(opt_me, mesaList, menuList);
+
+        do {
+            System.out.println("FORMAS DE PAGAMENTO:\n" +
+                        "1. Dinheiro\n" +
+                        "2. Cartão\n" +
+                        "3. Pix\n" +
+                        "0. Voltar\n" +
+                        "\nSelecione a forma de pagamento: ");
+            form_pag = scan.nextInt();
+    
+            if (form_pag == 1) {
+                System.out.println("FORMA DE PAGAMENTO: DINHEIRO\n");
+
+
+
+
+
+            } else if (form_pag == 2) {
+                System.out.println("FORMA DE PAGAMENTO: CARTÃO\n");
+                
+                System.out.println("1. Débito\n" +
+                                    "2. Crédito");
+                int car_tip = scan.nextInt();
+
+                
+
+
+
+                System.out.println("");
+            } else if (form_pag == 3) {
+                System.out.println("FORMA DE PAGAMENTO: PIX\n");
+
+
+
+
+
+            } else {
+                System.out.println("Opção Inválida.\n");
+            }
+            
+        } while (form_pag != 0);
+
+        scan.close();
+    }
 }
+
