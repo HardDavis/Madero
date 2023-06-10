@@ -1,10 +1,10 @@
 public class Item {
-    private int qnt = 1;
+
     private String name, ing, info;
     private double value;
     private boolean availability;
 
-    public Item(String nm, double val, String ing, String inf, boolean avai){
+    public Item(String nm, double val, String ing, String inf, boolean avai) {
         this.name = nm;
         this.value = val;
         this.ing = ing;
@@ -12,47 +12,38 @@ public class Item {
         this.availability = avai;
     }
 
-    public Item(){
-        
+    public Item() {
+
     }
 
-    public int getQnt(){
-        return this.qnt;
-    
-    }
-
-    public void setQnt(int qnt){
-        this.qnt = qnt;
-    }
-
-    public double getValue(){
+    public double getValue() {
         return this.value;
     }
-    
-    public String getName(){
+
+    public String getName() {
         return this.name;
     }
 
-    public String getIng(){
+    public String getIng() {
         return this.ing;
     }
 
-    public String getInfo(){
+    public String getInfo() {
         return this.info;
     }
 
-    public Boolean isAvaiability(){
+    public Boolean isAvaiability() {
         return this.availability;
     }
 
-
     @java.lang.Override
     public java.lang.String toString() {
-        return  "--------------------------------------------------------------------------------\n" +
+        return "--------------------------------------------------------------------------------\n" +
                 "Nome: " + name + '\n' +
                 "Ingredientes: " + ing + '\n' +
                 "Informações: " + info + '\n' +
                 "Preço: R$" + value + '\n' +
-                "Disponibilidade: " + availability;
+                "Disponibilidade: " + availability + '\n' +
+                "--------------------------------------------------------------------------------";
     }
 }

@@ -93,6 +93,7 @@ public class App {
                     } else if (opt == 2) { // --> 2. FAZER PEDIDO/ABRIR CONTA
                         int pd;
                         do {
+                            mesas.exibPedi(opt_me, mesaList, menuList);
                             System.out.println(
                                     "1. Adicionar item\n2. Remover item\n3. Finalizar pedido\n4. Cancelar pedido\n\n0 - Voltar");
 
@@ -108,6 +109,7 @@ public class App {
 
                                     if (pd != 0) {
                                         mesas.addItem(pd, opt_me, menuList, mesaList);
+                                        /* mesas.qualquerCoisa(pd, opt_me, menuList, mesaList); */
                                     } else {
                                         System.out.print("\033[H\033[2J"); // LIMPA TERMINAL
                                         System.out.flush();
@@ -115,17 +117,17 @@ public class App {
                                         mesas.setTotalPedido(opt_me, mesaList);
 
                                         System.out.println("\n");
-                                        mesas.exibPedi(opt_me, mesaList);
                                     }
                                 } while (pd != 0);
 
                             } else if (opt == 2) { // 2. REMOVE ITEM
-                                mesas.exibPedi(opt_me, mesaList); // mostrar lista
+                                menu.exibir_menu(menuList);
 
                                 System.out.print("Qual item deseja remover: ");
                                 pd = scan.nextInt();
 
                                 mesas.remov_item(pd, opt_me, menuList, mesaList);
+                                mesas.setTotalPedido(opt_me, mesaList);
 
                             } else if (opt == 3) { // 3. FINALIZAR PEDIDO
                                 mesas.setTotalPedido(opt_me, mesaList);
@@ -136,17 +138,17 @@ public class App {
                             } else if (opt == 4) { // 4. CANCELAR PEDIDO
 
                             } else if (opt > 4 || opt < 0) { // OPÇÕES INVÁLIDAS
-                                System.out.println("Opção inválida");
+                                System.out.println("\nOpção inválida\n");
                             }
 
                         } while (opt != 0);
 
                     } else if (opt == 3) { // --> 3. VERIFICAR PEDIDOS.
                         mesas.setTotalPedido(opt_me, mesaList);
-                        mesas.exibPedi(opt_me, mesaList);
+                        mesas.exibPedi(opt_me, mesaList, menuList);
 
                     } else if (opt == 4) { // --> 4. FECHAR CONTA.
-
+                        mesas.cancelPedido(opt_me, mesaList);
                     } else if (opt == 0) { // --> VOLTAR PARA SELEÇÃO DE MESA.
                         aux = false;
                     }
