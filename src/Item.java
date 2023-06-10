@@ -38,12 +38,13 @@ public class Item {
 
     @java.lang.Override
     public java.lang.String toString() {
+        String disp = (availability) ? "Disponível" : "Indisponível";
         return "--------------------------------------------------------------------------------\n" +
                 "Nome: " + name + '\n' +
                 "Ingredientes: " + ing + '\n' +
                 "Informações: " + info + '\n' +
                 "Preço: R$" + value + '\n' +
-                "Disponibilidade: " + availability + '\n' +
+                "Disponibilidade: " + disp + '\n' +
                 "--------------------------------------------------------------------------------";
     }
 }

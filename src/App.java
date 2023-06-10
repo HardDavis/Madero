@@ -3,6 +3,11 @@ import java.util.Scanner;
 
 public class App {
 
+    public static void limpa_term() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
     public static void main(String[] args) throws Exception {
         Scanner scan = new Scanner(System.in);
         Mesa mesas = new Mesa();
@@ -33,6 +38,7 @@ public class App {
          * // options.add("2.5 Voltar");
          * 
          * options.add("3. Verificar pedido");
+         * 
          * options.add("4. Fechar conta");
          * // options.add("4.1. Pagar conta");
          * // options.add("4.1.2 Selecionar opção de pagamento")
@@ -43,6 +49,7 @@ public class App {
          * // options.add("4.1.2.3.3 Debito")
          * // options.add("4.1.X. Emitir nota");
          * // options.add("4.2 Voltar");
+         * 
          * options.add("0. Voltar");
          * }
          */
@@ -54,16 +61,14 @@ public class App {
                 "0. Voltar";
 
         do {
-            System.out.print("\033[H\033[2J"); // LIMPA TERMINAL
-            System.out.flush();
+            limpa_term();
 
             mesas.exibir_mesas(mesaList); // EXIBE MESAS
 
             System.out.print("\nEscolha a mesa: "); // ESCOLHA DE MESA
             opt_me = scan.nextInt();
 
-            System.out.print("\033[H\033[2J"); // LIMPA TERMINAL
-            System.out.flush();
+            limpa_term();
 
             if (opt_me != 0) {
                 boolean aux = true;
@@ -77,7 +82,6 @@ public class App {
                     // SELEÇÃO DAS OPÇÕES A PARTIR DAQUI
                     if (opt == 1) { // --> 1. EXIBE MENU
                         do {
-                            System.out.print("\nMENU:\n");
                             menu.exibir_menu(menuList);
 
                             System.out.print(
@@ -94,11 +98,16 @@ public class App {
                         int pd;
                         do {
                             mesas.exibPedi(opt_me, mesaList, menuList);
-                            System.out.println(
-                                    "1. Adicionar item\n2. Remover item\n3. Finalizar pedido\n4. Cancelar pedido\n\n0 - Voltar");
 
-                            System.out.print("\nEscolha uma opção: ");
-                            opt = scan.nextInt();
+                            if (mesaList.get(opt_me - 1).pedido.size() != 0) {
+                                System.out.println(
+                                        "1. Adicionar item\n2. Remover item\n3. Finalizar pedido\n4. Cancelar pedido\n\n0 - Voltar");
+
+                                System.out.print("\nEscolha uma opção: ");
+                                opt = scan.nextInt();
+                            } else {
+                                opt = 1;
+                            }
 
                             if (opt == 1) { // 1. ADICIONA ITEM
                                 do {
@@ -109,23 +118,27 @@ public class App {
 
                                     if (pd != 0) {
                                         mesas.addItem(pd, opt_me, menuList, mesaList);
-                                        /* mesas.qualquerCoisa(pd, opt_me, menuList, mesaList); */
-                                    } else {
-                                        System.out.print("\033[H\033[2J"); // LIMPA TERMINAL
-                                        System.out.flush();
 
+                                    } else {
+                                        limpa_term();
                                         mesas.setTotalPedido(opt_me, mesaList);
 
-                                        System.out.println("\n");
                                     }
                                 } while (pd != 0);
 
                             } else if (opt == 2) { // 2. REMOVE ITEM
                                 menu.exibir_menu(menuList);
+                                
+                                do {
+                                    System.out.print("Qual item deseja remover: ");
+                                    pd = scan.nextInt();
 
-                                System.out.print("Qual item deseja remover: ");
-                                pd = scan.nextInt();
+                                    if (pd < 0 || pd > menuList.size()) {
+                                        System.out.println("Opção inválida.");
+                                    }
 
+                                } while (pd < 0 || pd > menuList.size());
+                                
                                 mesas.remov_item(pd, opt_me, menuList, mesaList);
                                 mesas.setTotalPedido(opt_me, mesaList);
 

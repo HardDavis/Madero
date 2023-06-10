@@ -1,9 +1,11 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Mesa {
     boolean status = true;
     double totalPedido;
     ArrayList<Item> pedido = new ArrayList<Item>();
+    Scanner scan = new Scanner(System.in);
 
     public void cria_mesas(ArrayList<Mesa> mesaList) {
         for (int i = 0; i < 4; i++) {
@@ -34,6 +36,7 @@ public class Mesa {
     }
 
     public void remov_item(int pd, int opt_me, ArrayList<Item> menuList, ArrayList<Mesa> mesaList) {
+
         for (int i = 0; i < mesaList.get(opt_me - 1).pedido.size(); i++) {
             if (menuList.get(pd - 1).getName() == mesaList.get(opt_me - 1).pedido.get(i).getName()) {
                 mesaList.get(opt_me - 1).pedido.remove(i);
@@ -55,7 +58,8 @@ public class Mesa {
     }
 
     public void exibPedi(int opt_me, ArrayList<Mesa> mesaList, ArrayList<Item> menuList) {
-
+        StringBuilder pedido = new StringBuilder();
+        pedido.setLength(0);
         if (mesaList.get(opt_me - 1).pedido.size() != 0) {
             for (int i = 0; i < mesaList.get(opt_me - 1).pedido.size(); i++) {
                 String preco = (mesaList.get(opt_me - 1).pedido.get(i).getValue() < 10.00)
@@ -76,16 +80,16 @@ public class Mesa {
                     if (unicidade) {
                         int qnt = quantity(opt_me, mesaList, mesaList.get(opt_me - 1).pedido.get(i).getName());
 
-                        System.out.println(
-                                qnt + "x " + mesaList.get(opt_me - 1).pedido.get(i).getName() + dots(tam) + "R$"
-                                        + /* mesaList.get(opt_me - 1).pedido.get(i).getValue() */preco);
+                        pedido.append(qnt + "x " + mesaList.get(opt_me - 1).pedido.get(i).getName() + dots(tam) + "R$"
+                                + preco + "\n");
                     }
                 }
             }
+            pedido.append("\nTotal: " + "R$" + String.format("%.2f", mesaList.get(opt_me - 1).totalPedido) + "\n");
         } else {
-            System.out.println("\nAinda não foi feito nenhum pedido!");
+            pedido.append("\nAinda não foi feito nenhum pedido!\n");
         }
-        System.out.println("\nTotal: " + "R$" + String.format("%.2f", mesaList.get(opt_me - 1).totalPedido) + "\n");
+        System.out.println(pedido);
     }
 
     public void cancelPedido(int opt_me, ArrayList<Mesa> mesaList) {
