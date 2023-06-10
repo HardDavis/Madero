@@ -90,7 +90,7 @@ public class Mesa {
 
     public void cancelPedido(int opt_me, ArrayList<Mesa> mesaList) {
         mesaList.get(opt_me - 1).pedido.clear();
-        System.out.println("Pedido cancelado!");
+        System.out.println("\nPedido cancelado!\n");
     }
 
     private static String dots(int tamanho) {

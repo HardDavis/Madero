@@ -137,7 +137,7 @@ public class App {
 
                             } else if (opt == 4) { // 4. CANCELAR PEDIDO
                                 mesas.cancelPedido(opt_me, mesaList);
-                                
+                                mesas.setTotalPedido(opt_me, mesaList);
                                 opt = 0;
 
                             } else if (opt > 4 || opt < 0) { // OPÇÕES INVÁLIDAS
