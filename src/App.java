@@ -39,8 +39,7 @@ public class App {
          * 
          * options.add("3. Verificar pedido");
          * 
-         * options.add("4. Fechar conta");
-         * // options.add("4.1. Pagar conta");
+         * options.add("4. Fechar conta")
          * // options.add("4.1.2 Selecionar opção de pagamento")
          * // options.add("4.1.2.1 PIX")
          * // options.add("4.1.2.2 Dinheiro")
@@ -165,6 +164,7 @@ public class App {
 
                     } else if (opt == 4) { // --> 4. FECHAR CONTA.
                         mesas.fecharConta(opt_me, mesaList, menuList);
+                        aux = false;
 
                     } else if (opt == 0) { // --> VOLTAR PARA SELEÇÃO DE MESA.
                         aux = false;
@@ -175,5 +175,6 @@ public class App {
         } while (opt_me != 0); // --> ENCERRAR PROGRAMA
 
         scan.close();
+        
     }
 }

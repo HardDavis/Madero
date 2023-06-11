@@ -1,5 +1,5 @@
 public class Progesso {
-    public static void progresso() {
+    public void progresso() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
         System.out.println("Seu pedido foi adicionado a fila de preparo.");
