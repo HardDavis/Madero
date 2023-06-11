@@ -8,7 +8,7 @@ public class Mesa {
     Scanner scan = new Scanner(System.in);
 
     public void cria_mesas(ArrayList<Mesa> mesaList) {
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
             mesaList.add(new Mesa());
         }
     }
@@ -33,16 +33,19 @@ public class Mesa {
 
     public void addItem(int pd, int opt_me, ArrayList<Item> menuList, ArrayList<Mesa> mesaList) {
         mesaList.get(opt_me - 1).pedido.add(menuList.get(pd - 1));
+        mesaList.get(opt_me - 1).setTotalPedido(opt_me, mesaList);
     }
 
     public void remov_item(int pd, int opt_me, ArrayList<Item> menuList, ArrayList<Mesa> mesaList) {
         for (int i = 0; i < mesaList.get(opt_me - 1).pedido.size(); i++) {
             if (menuList.get(pd - 1).getName() == mesaList.get(opt_me - 1).pedido.get(i).getName()) {
                 mesaList.get(opt_me - 1).pedido.remove(i);
+                limpa_term();
                 System.out.println("\n1 " + menuList.get(pd - 1).getName() + " foi removido do pedido!\n");
                 break;
             } else if (i == mesaList.get(opt_me - 1).pedido.size() - 1
                     && menuList.get(pd - 1).getName() != mesaList.get(opt_me - 1).pedido.get(i).getName()) {
+                limpa_term();
                 System.out.println("\nNão existe esse item no pedido!\n");
             }
         }
@@ -62,6 +65,8 @@ public class Mesa {
 
     public void exibPedi(int opt_me, ArrayList<Mesa> mesaList, ArrayList<Item> menuList) {
         StringBuilder pedido = new StringBuilder();
+
+        
         pedido.setLength(0);
         if (mesaList.get(opt_me - 1).pedido.size() != 0) {
             for (int i = 0; i < mesaList.get(opt_me - 1).pedido.size(); i++) {
@@ -107,17 +112,18 @@ public class Mesa {
 
         exibPedi(opt_me, mesaList, menuList);
 
-        do {
+       do { 
             System.out.print("\nFORMAS DE PAGAMENTO:\n" +
-                    "1. Dinheiro\n" +
-                    "2. Cartão\n" +
-                    "3. Pix\n" +
+                    "   1. Dinheiro\n" +
+                    "   2. Cartão\n" +
+                    "   3. Pix\n" +
                     "\n0. Voltar\n" +
                     "\nSelecione a forma de pagamento: ");
             form_pag = scan.nextInt();
 
             if (form_pag == 1) {
-                System.out.println("\nFORMA DE PAGAMENTO: DINHEIRO\n");
+                limpa_term();
+                System.out.print("FORMA DE PAGAMENTO: DINHEIRO\n");
 
                 System.out.println("Valor: R$" + valor);
                 form_pag = confirma_pag(form_pag, opt_me, mesaList);
@@ -126,16 +132,18 @@ public class Mesa {
                 int car_tip;
 
                 while (true) {
-                    System.out.println("\nFORMA DE PAGAMENTO: CARTÃO\n");
+                    limpa_term();
+                    System.out.print("FORMA DE PAGAMENTO: CARTÃO\n");
 
-                    System.out.print("1. Débito\n" +
-                            "2. Crédito\n" +
+                    System.out.print("   1. Débito\n" +
+                            "   2. Crédito\n" +
                             "\n0. Voltar\n" +
                             "\nSelecione o tipo do cartão: ");
                     car_tip = scan.nextInt();
 
                     if (car_tip == 1) {
-                        System.out.println("\nFORMA DE PAGAMENTO: Cartão Débito\n");
+                        limpa_term();
+                        System.out.print("FORMA DE PAGAMENTO: Cartão Débito\n");
                         System.out.println("Valor: R$" + valor);
                         form_pag = confirma_pag(form_pag, opt_me, mesaList);
                         if (form_pag == 0 || form_pag == 10) {
@@ -143,7 +151,8 @@ public class Mesa {
                         }
 
                     } else if (car_tip == 2) {
-                        System.out.println("\nFORMA DE PAGAMENTO: Cartão Crédito\n");
+                        limpa_term();
+                        System.out.print("FORMA DE PAGAMENTO: Cartão Crédito\n");
                         System.out.println("Valor: R$" + valor);
                         form_pag = confirma_pag(form_pag, opt_me, mesaList);
                         if (form_pag == 0 || form_pag == 10) {
@@ -158,7 +167,8 @@ public class Mesa {
                 }
 
             } else if (form_pag == 3) {
-                System.out.println("\nFORMA DE PAGAMENTO: PIX\n");
+                limpa_term();
+                System.out.print("FORMA DE PAGAMENTO: PIX\n");
 
                 System.out.println("Valor: R$" + valor);
                 System.out.println("Chave pix: theflavor@gmail.com");
@@ -166,6 +176,7 @@ public class Mesa {
                 form_pag = confirma_pag(form_pag, opt_me, mesaList);
 
             } else {
+                limpa_term();
                 System.out.println("Opção Inválida.\n");
             }
 
@@ -175,13 +186,14 @@ public class Mesa {
         } else {
             pag_stts = true;
         }
+        limpa_term();
         return pag_stts;
     }
 
     private int confirma_pag(int form_pag, int opt_me, ArrayList<Mesa> mesaList) {
         String confirma;
         do {
-            System.out.print("Digite \"PAGAR\" para confirmar o pagamento ou \"CANCELAR\" para voltar: ");
+            System.out.print("\nDigite \"PAGAR\" para confirmar o pagamento ou \"CANCELAR\" para voltar: ");
             confirma = scan.next();
 
             if ("PAGAR".equals(confirma.toUpperCase())) {
@@ -192,7 +204,7 @@ public class Mesa {
             } else if ("CANCELAR".equals(confirma.toUpperCase())) {
                 form_pag = 0;
             } else {
-                System.out.print("Opção inválida. ");
+                System.out.print("\nOpção inválida.");
             }
         } while (!"PAGAR".equals(confirma.toUpperCase()) && !"CANCELAR".equals(confirma.toUpperCase()));
 
@@ -215,5 +227,10 @@ public class Mesa {
             }
         }
         return qtd;
+    }
+
+    private static void limpa_term() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 }

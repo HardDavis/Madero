@@ -5,7 +5,7 @@ public class Menu{
     public void exibir_menu(ArrayList<Item> menuList){
         StringBuilder menu = new StringBuilder();
 
-        menu.append("\nMENU:");
+        menu.append("MENU:");
         for (int i = 0; i < menuList.size(); i++) {
             String preco = (menuList.get(i).getValue() < 10.00) ? String.format("0%.2f", menuList.get(i).getValue()) : String.format("%.2f", menuList.get(i).getValue());
             String num_name = (i+1) + " - " + menuList.get(i).getName();
