@@ -137,17 +137,23 @@ public class Mesa {
                         System.out.println("\nFORMA DE PAGAMENTO: Cartão Débito\n");
                         System.out.println("Valor: R$" + getTotalPedido(opt_me, mesaList));
                         form_pag = confirma_pag(form_pag, opt_me, mesaList);
+                        if (form_pag == 0) {
+                            car_tip = 0;
+                        }
 
                     } else if (car_tip == 2) {
                         System.out.println("\nFORMA DE PAGAMENTO: Cartão Crédito\n");
                         System.out.println("Valor: R$" + getTotalPedido(opt_me, mesaList));
                         form_pag = confirma_pag(form_pag, opt_me, mesaList);
+                        if (form_pag == 0) {
+                            car_tip = 0;
+                        }
 
                     } else if (car_tip < 0 || car_tip > 2) {
                         System.out.println("Opção inválida");
                     }
 
-                } while (car_tip != 0 && form_pag != 10);
+                } while (car_tip != 0);
 
             } else if (form_pag == 3) {
                 System.out.println("\nFORMA DE PAGAMENTO: PIX\n");
@@ -161,7 +167,7 @@ public class Mesa {
                 System.out.println("Opção Inválida.\n");
             }
 
-        } while (form_pag != 0 && form_pag != 10);
+        } while (form_pag != 0);
     }
 
     private int confirma_pag(int form_pag, int opt_me, ArrayList<Mesa> mesaList) {
@@ -174,13 +180,13 @@ public class Mesa {
                 mesaList.get(opt_me - 1).pedido.clear();
                 mesaList.get(opt_me - 1).mudaStts(opt_me, mesaList);
                 System.out.println("Pagamento realizado");
-                form_pag = 10;
+                form_pag = 0;
             } else if ("CANCELAR".equals(confirma.toUpperCase())) {
                 form_pag = 0;
             } else {
-                System.out.println("Opção inválida. Digite novamente.");
+                System.out.print("Opção inválida. ");
             }
-        } while ("PAGAR".equals(confirma.toUpperCase()) && "CANCELAR".equals(confirma.toUpperCase()));
+        } while (!"PAGAR".equals(confirma.toUpperCase()) && !"CANCELAR".equals(confirma.toUpperCase()));
 
         return form_pag;
     }

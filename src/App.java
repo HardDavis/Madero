@@ -165,6 +165,7 @@ public class App {
                     } else if (opt == 4) { // --> 4. FECHAR CONTA.
                         mesas.fecharConta(opt_me, mesaList, menuList);
                         aux = false;
+                        
 
                     } else if (opt == 0) { // --> VOLTAR PARA SELEÇÃO DE MESA.
                         aux = false;
