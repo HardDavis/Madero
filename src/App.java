@@ -57,7 +57,7 @@ public class App {
                 "2. Fazer pedido/abrir conta\n" +
                 "3. Verificar pedido\n" +
                 "4. Fechar conta\n" +
-                "0. Voltar";
+                "\n0. Voltar";
 
         do {
             limpa_term();
@@ -132,14 +132,18 @@ public class App {
                                     System.out.print("Qual item deseja remover: ");
                                     pd = scan.nextInt();
 
-                                    if (pd < 0 || pd > menuList.size()) {
+                                    if (pd > 0 && pd <= menuList.size()){
+                                        mesas.remov_item(pd, opt_me, menuList, mesaList);
+                                        mesas.setTotalPedido(opt_me, mesaList);
+                                    } else if (pd == 0) {
+                                        break;
+                                    } else {
                                         System.out.println("Opção inválida.");
                                     }
 
                                 } while (pd < 0 || pd > menuList.size());
 
-                                mesas.remov_item(pd, opt_me, menuList, mesaList);
-                                mesas.setTotalPedido(opt_me, mesaList);
+
 
                             } else if (opt == 3) { // 3. FINALIZAR PEDIDO
                                 mesas.setTotalPedido(opt_me, mesaList);
@@ -163,8 +167,11 @@ public class App {
                         mesas.exibPedi(opt_me, mesaList, menuList);
 
                     } else if (opt == 4) { // --> 4. FECHAR CONTA.
-                        mesas.fecharConta(opt_me, mesaList, menuList);
-                        aux = false;
+                        boolean pag_stts = mesas.fecharConta(opt_me, mesaList, menuList);
+
+                        if (pag_stts) {
+                            aux = false;
+                        }
                         
 
                     } else if (opt == 0) { // --> VOLTAR PARA SELEÇÃO DE MESA.
@@ -176,6 +183,5 @@ public class App {
         } while (opt_me != 0); // --> ENCERRAR PROGRAMA
 
         scan.close();
-        
     }
 }

@@ -36,7 +36,6 @@ public class Mesa {
     }
 
     public void remov_item(int pd, int opt_me, ArrayList<Item> menuList, ArrayList<Mesa> mesaList) {
-
         for (int i = 0; i < mesaList.get(opt_me - 1).pedido.size(); i++) {
             if (menuList.get(pd - 1).getName() == mesaList.get(opt_me - 1).pedido.get(i).getName()) {
                 mesaList.get(opt_me - 1).pedido.remove(i);
@@ -85,7 +84,7 @@ public class Mesa {
                         int qnt = quantity(opt_me, mesaList, mesaList.get(opt_me - 1).pedido.get(i).getName());
 
                         pedido.append(qnt + "x " + mesaList.get(opt_me - 1).pedido.get(i).getName() + dots(tam) + "R$"
-                                + preco + "\n");
+                        + preco + "\n");
                     }
                 }
             }
@@ -95,70 +94,73 @@ public class Mesa {
         }
         System.out.println(pedido);
     }
-
+    
     public void cancelPedido(int opt_me, ArrayList<Mesa> mesaList) {
         mesaList.get(opt_me - 1).pedido.clear();
         System.out.println("\nPedido cancelado!\n");
     }
 
-    public void fecharConta(int opt_me, ArrayList<Mesa> mesaList, ArrayList<Item> menuList) {
+    public boolean fecharConta(int opt_me, ArrayList<Mesa> mesaList, ArrayList<Item> menuList) {
         int form_pag;
-        /* boolean pag_stts; */
+        boolean pag_stts;
+        String valor = (getTotalPedido(opt_me, mesaList) < 10) ? String.format("0%.2f", getTotalPedido(opt_me, mesaList)) : String.format("%.2f", getTotalPedido(opt_me, mesaList));
 
         exibPedi(opt_me, mesaList, menuList);
 
         do {
-            System.out.print("FORMAS DE PAGAMENTO:\n" +
+            System.out.print("\nFORMAS DE PAGAMENTO:\n" +
                     "1. Dinheiro\n" +
                     "2. Cartão\n" +
                     "3. Pix\n" +
-                    "0. Voltar\n" +
+                    "\n0. Voltar\n" +
                     "\nSelecione a forma de pagamento: ");
             form_pag = scan.nextInt();
 
             if (form_pag == 1) {
                 System.out.println("\nFORMA DE PAGAMENTO: DINHEIRO\n");
 
-                System.out.println("Valor: R$" + getTotalPedido(opt_me, mesaList));
+                System.out.println("Valor: R$" + valor);
                 form_pag = confirma_pag(form_pag, opt_me, mesaList);
 
             } else if (form_pag == 2) {
                 int car_tip;
-                do {
+
+                while (true) {
                     System.out.println("\nFORMA DE PAGAMENTO: CARTÃO\n");
 
                     System.out.print("1. Débito\n" +
                             "2. Crédito\n" +
-                            "\n0. Voltar" +
+                            "\n0. Voltar\n" +
                             "\nSelecione o tipo do cartão: ");
                     car_tip = scan.nextInt();
 
                     if (car_tip == 1) {
                         System.out.println("\nFORMA DE PAGAMENTO: Cartão Débito\n");
-                        System.out.println("Valor: R$" + getTotalPedido(opt_me, mesaList));
+                        System.out.println("Valor: R$" + valor);
                         form_pag = confirma_pag(form_pag, opt_me, mesaList);
-                        if (form_pag == 0) {
-                            car_tip = 0;
+                        if (form_pag == 0 || form_pag == 10) {
+                            break;
                         }
 
                     } else if (car_tip == 2) {
                         System.out.println("\nFORMA DE PAGAMENTO: Cartão Crédito\n");
-                        System.out.println("Valor: R$" + getTotalPedido(opt_me, mesaList));
+                        System.out.println("Valor: R$" + valor);
                         form_pag = confirma_pag(form_pag, opt_me, mesaList);
-                        if (form_pag == 0) {
-                            car_tip = 0;
+                        if (form_pag == 0 || form_pag == 10) {
+                            break;
                         }
 
                     } else if (car_tip < 0 || car_tip > 2) {
                         System.out.println("Opção inválida");
+                    } else {
+                        break;
                     }
-
-                } while (car_tip != 0);
+                }
 
             } else if (form_pag == 3) {
                 System.out.println("\nFORMA DE PAGAMENTO: PIX\n");
 
-                System.out.println("Valor: R$" + getTotalPedido(opt_me, mesaList));
+                System.out.println("Valor: R$" + valor);
                 System.out.println("Chave pix: theflavor@gmail.com");
 
                 form_pag = confirma_pag(form_pag, opt_me, mesaList);
@@ -167,7 +169,13 @@ public class Mesa {
                 System.out.println("Opção Inválida.\n");
             }
 
-        } while (form_pag != 0);
+        } while (form_pag != 0 && form_pag != 10);
+        if (form_pag == 0) {
+            pag_stts = false;
+        } else {
+            pag_stts = true;
+        }
+        return pag_stts;
     }
 
     private int confirma_pag(int form_pag, int opt_me, ArrayList<Mesa> mesaList) {
@@ -175,12 +183,12 @@ public class Mesa {
         do {
             System.out.print("Digite \"PAGAR\" para confirmar o pagamento ou \"CANCELAR\" para voltar: ");
             confirma = scan.next();
-    
+
             if ("PAGAR".equals(confirma.toUpperCase())) {
                 mesaList.get(opt_me - 1).pedido.clear();
                 mesaList.get(opt_me - 1).mudaStts(opt_me, mesaList);
                 System.out.println("Pagamento realizado");
-                form_pag = 0;
+                form_pag = 10;
             } else if ("CANCELAR".equals(confirma.toUpperCase())) {
                 form_pag = 0;
             } else {

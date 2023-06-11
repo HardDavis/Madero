@@ -12,6 +12,7 @@ public class Menu{
             int tam = 30 - num_name.length() + 10;
             menu.append("\n" + (i+1) + " - " + menuList.get(i).getName() + dots(tam) + "R$" + preco);            
         }
+        menu.append("\n\n0. Voltar");
         System.out.println(menu.toString());
     }
 
