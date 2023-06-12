@@ -39,9 +39,10 @@ public class App {
 
             if (opt_me != 0) {
                 boolean aux = true;
+                Boolean volta = false;
 
                     limpa_term();
-                do {
+                    do {
                     System.out.println(opcoes);
 
                     System.out.print("\nEscolha uma opção: ");
@@ -52,12 +53,12 @@ public class App {
                         limpa_term();
                         do {
                             menu.exibir_menu(menuList);
-
+                            
                             System.out.print(
-                                    "\nDigite o número do item para mostrar suas informações ou 0 para voltar: ");
-                            opt = scan.nextInt();
-
-                            if (opt != 0) {// --> EXIBI AS INFORÇÕES DO ITEM SELECIONADO
+                                "\nDigite o número do item para mostrar suas informações ou 0 para voltar: ");
+                                opt = scan.nextInt();
+                                
+                                if (opt != 0) {// --> EXIBI AS INFORÇÕES DO ITEM SELECIONADO
                                 limpa_term();
                                 System.out.println(menuList.get(opt - 1));
                             }
@@ -67,7 +68,6 @@ public class App {
                     } else if (opt == 2) { // --> 2. FAZER PEDIDO/ABRIR CONTA
                         limpa_term();
                         int pd;
-                        boolean volta = false;
                         
                         do {
                             mesas.exibPedi(opt_me, mesaList, menuList);
@@ -78,7 +78,7 @@ public class App {
 
                                 System.out.print("\nEscolha uma opção: ");
                                 opt = scan.nextInt();
-                            } else if (mesaList.get(opt_me - 1).pedido.size() == 0 /* && !volta */){
+                            } else if (mesaList.get(opt_me - 1).pedido.size() == 0 && volta == false){
                                 opt = 1;
                             }
 
@@ -94,9 +94,11 @@ public class App {
 
                                     if (pd != 0) {
                                         mesas.addItem(pd, opt_me, menuList, mesaList);
-                                    } /* else {
                                         volta = true;
-                                    } */
+                                    } else if (pd == 0 && volta == false) {
+                                        opt = 0;
+                                        break;
+                                    } 
                                 } while (pd != 0);
 
                             } else if (opt == 2) { // 2. REMOVE ITEM
@@ -153,7 +155,8 @@ public class App {
                         }
 
                     } /* else if (opt == 5) {
-                        po.tempo();
+                        System.out.println(mesas.nota_fiscal(opt_me, mesaList, menuList));
+                        int a = scan.nextInt();
                     } */ else if (opt == 0) { // --> VOLTAR PARA SELEÇÃO DE MESA.
                         aux = false;
                     }
