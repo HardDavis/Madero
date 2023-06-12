@@ -1,11 +1,13 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Mesa {
+    Scanner scan = new Scanner(System.in);
     boolean status = true;
     private double totalPedido;
     ArrayList<Item> pedido = new ArrayList<Item>();
-    Scanner scan = new Scanner(System.in);
 
     public void cria_mesas(ArrayList<Mesa> mesaList) {
         for (int i = 0; i < 5; i++) {
@@ -63,10 +65,9 @@ public class Mesa {
         return mesaList.get(opt_me - 1).totalPedido;
     }
 
-    public void exibPedi(int opt_me, ArrayList<Mesa> mesaList, ArrayList<Item> menuList) {
+    public String exibPedi(int opt_me, ArrayList<Mesa> mesaList, ArrayList<Item> menuList) {
         StringBuilder pedido = new StringBuilder();
 
-        
         pedido.setLength(0);
         if (mesaList.get(opt_me - 1).pedido.size() != 0) {
             for (int i = 0; i < mesaList.get(opt_me - 1).pedido.size(); i++) {
@@ -89,7 +90,7 @@ public class Mesa {
                         int qnt = quantity(opt_me, mesaList, mesaList.get(opt_me - 1).pedido.get(i).getName());
 
                         pedido.append(qnt + "x " + mesaList.get(opt_me - 1).pedido.get(i).getName() + dots(tam) + "R$"
-                        + preco + "\n");
+                                + preco + "\n");
                     }
                 }
             }
@@ -98,8 +99,9 @@ public class Mesa {
             pedido.append("\nPedido vazio\n");
         }
         System.out.println(pedido);
+        return pedido.toString();
     }
-    
+
     public void cancelPedido(int opt_me, ArrayList<Mesa> mesaList) {
         mesaList.get(opt_me - 1).pedido.clear();
         System.out.println("\nPedido cancelado!\n");
@@ -108,11 +110,13 @@ public class Mesa {
     public boolean fecharConta(int opt_me, ArrayList<Mesa> mesaList, ArrayList<Item> menuList) {
         int form_pag;
         boolean pag_stts;
-        String valor = (getTotalPedido(opt_me, mesaList) < 10) ? String.format("0%.2f", getTotalPedido(opt_me, mesaList)) : String.format("%.2f", getTotalPedido(opt_me, mesaList));
+        String valor = (getTotalPedido(opt_me, mesaList) < 10)
+                ? String.format("0%.2f", getTotalPedido(opt_me, mesaList))
+                : String.format("%.2f", getTotalPedido(opt_me, mesaList));
 
         exibPedi(opt_me, mesaList, menuList);
 
-       do { 
+        do {
             System.out.print("\nFORMAS DE PAGAMENTO:\n" +
                     "   1. Dinheiro\n" +
                     "   2. Cartão\n" +
@@ -123,10 +127,11 @@ public class Mesa {
 
             if (form_pag == 1) {
                 limpa_term();
+                String pagName = "Dinheiro";
                 System.out.print("FORMA DE PAGAMENTO: DINHEIRO\n");
 
                 System.out.println("Valor: R$" + valor);
-                form_pag = confirma_pag(form_pag, opt_me, mesaList);
+                form_pag = confirma_pag(pagName, form_pag, opt_me, mesaList);
 
             } else if (form_pag == 2) {
                 int car_tip;
@@ -143,18 +148,20 @@ public class Mesa {
 
                     if (car_tip == 1) {
                         limpa_term();
+                        String pagName = "Cartão Débito";
                         System.out.print("FORMA DE PAGAMENTO: Cartão Débito\n");
                         System.out.println("Valor: R$" + valor);
-                        form_pag = confirma_pag(form_pag, opt_me, mesaList);
+                        form_pag = confirma_pag(pagName, form_pag, opt_me, mesaList);
                         if (form_pag == 0 || form_pag == 10) {
                             break;
                         }
 
                     } else if (car_tip == 2) {
                         limpa_term();
+                        String pagName = "Cartão Crédito";
                         System.out.print("FORMA DE PAGAMENTO: Cartão Crédito\n");
                         System.out.println("Valor: R$" + valor);
-                        form_pag = confirma_pag(form_pag, opt_me, mesaList);
+                        form_pag = confirma_pag(pagName, form_pag, opt_me, mesaList);
                         if (form_pag == 0 || form_pag == 10) {
                             break;
                         }
@@ -168,12 +175,13 @@ public class Mesa {
 
             } else if (form_pag == 3) {
                 limpa_term();
+                String pagName = "PIX";
                 System.out.print("FORMA DE PAGAMENTO: PIX\n");
 
                 System.out.println("Valor: R$" + valor);
                 System.out.println("Chave pix: theflavor@gmail.com");
 
-                form_pag = confirma_pag(form_pag, opt_me, mesaList);
+                form_pag = confirma_pag(pagName, form_pag, opt_me, mesaList);
 
             } else {
                 limpa_term();
@@ -190,18 +198,33 @@ public class Mesa {
         return pag_stts;
     }
 
-    private int confirma_pag(int form_pag, int opt_me, ArrayList<Mesa> mesaList) {
+    private int confirma_pag(String pagName, int form_pag, int opt_me, ArrayList<Mesa> mesaList) {
         String confirma;
         do {
             System.out.print("\nDigite \"PAGAR\" para confirmar o pagamento ou \"CANCELAR\" para voltar: ");
             confirma = scan.next();
 
-            if ("PAGAR".equals(confirma.toUpperCase())) {
+            if ("PAGAR".equals(confirma.toUpperCase().trim())) {
+                limpa_term();
+                System.out.println("Pagamento realizado");
+                System.out.println("Deseja emitir a Nota Fiscal?\n" +
+                                    "     1. Sim\n" +
+                                    "     2. Não");
+                System.out.print("Digite: ");
+                int exbiNF = scan.nextInt();
+                if (exbiNF == 1) {
+                    String a = "";
+                    while (a == "") {
+                        System.out.println(mesaList.get(opt_me - 1).nota_fiscal(opt_me, pagName, mesaList, pedido));
+                        System.out.print("\nDigite qualquer coisa para sair: ");
+                        a = scan.next();
+                    }
+                }
                 mesaList.get(opt_me - 1).pedido.clear();
                 mesaList.get(opt_me - 1).mudaStts(opt_me, mesaList);
-                System.out.println("Pagamento realizado");
                 form_pag = 10;
-            } else if ("CANCELAR".equals(confirma.toUpperCase())) {
+                
+            } else if ("CANCELAR".equals(confirma.toUpperCase().trim())) {
                 form_pag = 0;
             } else {
                 System.out.print("\nOpção inválida.");
@@ -209,6 +232,21 @@ public class Mesa {
         } while (!"PAGAR".equals(confirma.toUpperCase()) && !"CANCELAR".equals(confirma.toUpperCase()));
 
         return form_pag;
+    }
+
+    public String nota_fiscal(int opt_me, String pagName, ArrayList<Mesa> mesaList, ArrayList<Item> menuList) {
+
+        LocalDateTime dataHoraAtual = LocalDateTime.now();
+        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy\t\t\t      HH:mm:ss");
+        String dataHoraFormatada = dataHoraAtual.format(formatador);
+
+        StringBuffer notinha = new StringBuffer("\t\tThe Flavor\n" +
+                "----------------------------------------------\n");
+        notinha.append(exibPedi(opt_me, mesaList, menuList));
+        notinha.append("----------------------------------------------\n" + pagName + "\t\t\t      R$"
+                + String.format("%.2f", mesaList.get(opt_me - 1).getTotalPedido(opt_me, mesaList)));
+        notinha.append("\n" + dataHoraFormatada);
+        return notinha.toString();
     }
 
     private static String dots(int tamanho) {
