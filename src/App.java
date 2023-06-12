@@ -12,7 +12,7 @@ public class App {
         Scanner scan = new Scanner(System.in);
         Mesa mesas = new Mesa();
         Menu menu = new Menu();
-/*         Progesso po = new Progesso();*/
+        /* Progesso po = new Progesso(); */
         int opt, opt_me;
 
         ArrayList<Mesa> mesaList = new ArrayList<>();
@@ -41,8 +41,8 @@ public class App {
                 boolean aux = true;
                 Boolean volta = false;
 
-                    limpa_term();
-                    do {
+                limpa_term();
+                do {
                     System.out.println(opcoes);
 
                     System.out.print("\nEscolha uma opção: ");
@@ -53,22 +53,25 @@ public class App {
                         limpa_term();
                         do {
                             menu.exibir_menu(menuList);
-                            
+
                             System.out.print(
-                                "\nDigite o número do item para mostrar suas informações ou 0 para voltar: ");
-                                opt = scan.nextInt();
-                                
-                                if (opt != 0) {// --> EXIBI AS INFORÇÕES DO ITEM SELECIONADO
+                                    "\nDigite o número do item para mostrar suas informações ou 0 para voltar: ");
+                            opt = scan.nextInt();
+
+                            if (opt > 0 && opt <= menuList.size()) {// --> EXIBI AS INFORÇÕES DO ITEM SELECIONADO
                                 limpa_term();
                                 System.out.println(menuList.get(opt - 1));
+                            } else if (opt < 0 || opt > menuList.size()) {
+                                limpa_term();
+                                System.out.println("Opção Inválida\n");
                             }
 
                         } while (opt != 0);
-                        
+
                     } else if (opt == 2) { // --> 2. FAZER PEDIDO/ABRIR CONTA
                         limpa_term();
                         int pd;
-                        
+
                         do {
                             mesas.exibPedi(opt_me, mesaList, menuList);
 
@@ -78,7 +81,7 @@ public class App {
 
                                 System.out.print("\nEscolha uma opção: ");
                                 opt = scan.nextInt();
-                            } else if (mesaList.get(opt_me - 1).pedido.size() == 0 && volta == false){
+                            } else if (mesaList.get(opt_me - 1).pedido.size() == 0 && volta == false) {
                                 opt = 1;
                             }
 
@@ -92,20 +95,21 @@ public class App {
                                     pd = scan.nextInt();
                                     limpa_term();
 
-                                    if (pd != 0) {
+                                    if (pd > 0 && pd <= menuList.size()) {
                                         mesas.addItem(pd, opt_me, menuList, mesaList);
                                         volta = true;
-                                    } else if (pd == 0 && volta == false) {
+                                    } else if (pd == 0 && !volta) {
                                         opt = 0;
                                         break;
-                                    } 
+                                    } else if (pd < 0 || pd > menuList.size()) {
+                                        System.out.println("Opção Inválida\n");
+                                    }
                                 } while (pd != 0);
 
                             } else if (opt == 2) { // 2. REMOVE ITEM
                                 limpa_term();
                                 menu.exibir_menu(menuList);
 
-                                
                                 do {
                                     System.out.print("\nQual item deseja remover: ");
                                     pd = scan.nextInt();
@@ -154,10 +158,12 @@ public class App {
                             aux = false;
                         }
 
-                    } /* else if (opt == 5) {
-                        System.out.println(mesas.nota_fiscal(opt_me, mesaList, menuList));
-                        int a = scan.nextInt();
-                    } */ else if (opt == 0) { // --> VOLTAR PARA SELEÇÃO DE MESA.
+                    } /*
+                       * else if (opt == 5) {
+                       * System.out.println(mesas.nota_fiscal(opt_me, mesaList, menuList));
+                       * int a = scan.nextInt();
+                       * }
+                       */ else if (opt == 0) { // --> VOLTAR PARA SELEÇÃO DE MESA.
                         aux = false;
                     }
                 } while (aux);

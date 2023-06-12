@@ -71,9 +71,7 @@ public class Mesa {
         pedido.setLength(0);
         if (mesaList.get(opt_me - 1).pedido.size() != 0) {
             for (int i = 0; i < mesaList.get(opt_me - 1).pedido.size(); i++) {
-                String preco = (mesaList.get(opt_me - 1).pedido.get(i).getValue() < 10.00)
-                        ? String.format("0%.2f", mesaList.get(opt_me - 1).pedido.get(i).getValue())
-                        : String.format("%.2f", mesaList.get(opt_me - 1).pedido.get(i).getValue());
+                String preco = format_prec(mesaList.get(opt_me - 1).pedido.get(i).getValue());
                 boolean unicidade = true;
                 String num_name = (i + 1) + " - " + mesaList.get(opt_me - 1).pedido.get(i).getName();
                 int tam = 30 - num_name.length() + 10;
@@ -94,7 +92,8 @@ public class Mesa {
                     }
                 }
             }
-            pedido.append("\nTotal: " + "R$" + String.format("%.2f", mesaList.get(opt_me - 1).totalPedido) + "\n");
+            pedido.append(space_bet(48, "\nTotal:", "R$" + format_prec(mesaList.get(opt_me - 1).totalPedido) + "\n"));
+            /* pedido.append("\nTotal: " + "R$" + format_prec(mesaList.get(opt_me - 1).totalPedido)  + "\n"); */
         } else {
             pedido.append("\nPedido vazio\n");
         }
@@ -110,9 +109,7 @@ public class Mesa {
     public boolean fecharConta(int opt_me, ArrayList<Mesa> mesaList, ArrayList<Item> menuList) {
         int form_pag;
         boolean pag_stts;
-        String valor = (getTotalPedido(opt_me, mesaList) < 10)
-                ? String.format("0%.2f", getTotalPedido(opt_me, mesaList))
-                : String.format("%.2f", getTotalPedido(opt_me, mesaList));
+        String valor = format_prec(getTotalPedido(opt_me, mesaList));
 
         exibPedi(opt_me, mesaList, menuList);
 
@@ -208,9 +205,9 @@ public class Mesa {
                 limpa_term();
                 System.out.println("Pagamento realizado");
                 System.out.println("Deseja emitir a Nota Fiscal?\n" +
-                                    "     1. Sim\n" +
-                                    "     2. Não");
-                System.out.print("Digite: ");
+                        "     1. Sim\n" +
+                        "     2. Não");
+                System.out.print("\nDigite: ");
                 int exbiNF = scan.nextInt();
                 if (exbiNF == 1) {
                     String a = "";
@@ -223,13 +220,13 @@ public class Mesa {
                 mesaList.get(opt_me - 1).pedido.clear();
                 mesaList.get(opt_me - 1).mudaStts(opt_me, mesaList);
                 form_pag = 10;
-                
+
             } else if ("CANCELAR".equals(confirma.toUpperCase().trim())) {
                 form_pag = 0;
             } else {
                 System.out.print("\nOpção inválida.");
             }
-        } while (!"PAGAR".equals(confirma.toUpperCase()) && !"CANCELAR".equals(confirma.toUpperCase()));
+        } while (!"PAGAR".equals(confirma.toUpperCase().trim()) && !"CANCELAR".equals(confirma.toUpperCase().trim()));
 
         return form_pag;
     }
@@ -239,14 +236,32 @@ public class Mesa {
         LocalDateTime dataHoraAtual = LocalDateTime.now();
         DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy\t\t\t      HH:mm:ss");
         String dataHoraFormatada = dataHoraAtual.format(formatador);
+        
+        StringBuffer notinha = new StringBuffer();
+        
+        String line = "----------------------------------------------\n";
+        int tam = line.length();
 
-        StringBuffer notinha = new StringBuffer("\t\tThe Flavor\n" +
-                "----------------------------------------------\n");
-        notinha.append(exibPedi(opt_me, mesaList, menuList));
-        notinha.append("----------------------------------------------\n" + pagName + "\t\t\t      R$"
-                + String.format("%.2f", mesaList.get(opt_me - 1).getTotalPedido(opt_me, mesaList)));
+        notinha.append(space_cen(tam, "The Flavor") + line);
+        notinha.append(exibPedi(opt_me, mesaList, menuList) + line);
+        notinha.append(space_bet(tam-1, pagName, "R$" + format_prec(mesaList.get(opt_me - 1).getTotalPedido(opt_me, mesaList))));
         notinha.append("\n" + dataHoraFormatada);
+
         return notinha.toString();
+    }
+    
+    private String space_bet(int tam, String a, String b){
+        int space_bet = (tam - a.length() - b.length());
+        String frm_str = String.format("%s" + "%" + space_bet + "s" + "%s", a, "", b);
+        
+        return frm_str;
+    }
+
+    private String space_cen(int tam, String a){
+        int space_cen = (tam - a.length()) / 2;
+        String frm_str = String.format("%" + space_cen + "s%s%" + space_cen + "s" + "\n", "", a, "");
+        
+        return frm_str;
     }
 
     private static String dots(int tamanho) {
@@ -270,5 +285,11 @@ public class Mesa {
     private static void limpa_term() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
+    }
+
+    private String format_prec(double val) {
+        String preco = (val < 10.00) ? String.format("0%.2f", val) : String.format("%.2f", val);
+
+        return preco;
     }
 }
