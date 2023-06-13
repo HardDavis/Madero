@@ -68,23 +68,28 @@ public class App {
                         Uteis.limpa_term();
                         int pd;
 
+                        if (mesa.pedidos.size() == 0 || mesa.pedidos.get(mesa.pedidos.size() - 1).pedidoFinal) {
+                            mesa.pedidos.add(new Pedido());
+                        }
+                        Pedido ped_sec = mesa.pedidos.get(mesa.pedidos.size() - 1);
+                        
                         do {
-                            System.out.println(mesa.exibPedi(menuList)); 
-
-                            if (mesaList.get(opt_me - 1).pedido.size() != 0) {
+                            
+                            System.out.println(ped_sec.exibPedi(menuList)); 
+                            if (ped_sec.pedido.size() != 0) {
                                 System.out.println(
                                         "1. Adicionar item\n2. Remover item\n3. Finalizar pedido\n4. Cancelar pedido\n\n0 - Voltar");
 
                                 System.out.print("\nEscolha uma opção: ");
                                 opt = scan.nextInt();
-                            } else if (mesaList.get(opt_me - 1).pedido.size() == 0 && volta == false) {
+                            } else if (ped_sec.pedido.size() == 0 && volta == false) {
                                 opt = 1;
                             }
 
                             if (opt == 1) { // 1. ADICIONA ITEM
                                 Uteis.limpa_term();
                                 do {
-                                    System.out.println(mesa.exibPedi(menuList)); 
+                                    System.out.println(ped_sec.exibPedi(menuList)); 
                                     menu.exibir_menu(menuList);
 
                                     System.out.print("\nEscolha o item a ser adicionado ao pedido: ");
@@ -93,7 +98,7 @@ public class App {
 
                                     if (pd > 0 && pd <= menuList.size()) {
                                         /* mesa.addItem(pd, opt_me, menuList, mesaList); */
-                                        mesa.addItem(pd, menuList);
+                                        ped_sec.addItem(pd, menuList);
                                         volta = true;
                                     } else if (pd == 0 && !volta) {
                                         opt = 0;
@@ -112,7 +117,7 @@ public class App {
                                     pd = scan.nextInt();
 
                                     if (pd > 0 && pd <= menuList.size()) {
-                                        mesa.remov_item(pd, menuList);
+                                        ped_sec.remov_item(pd, menuList);
                                         mesa.setTotalPedido();
                                     } else if (pd == 0) {
                                         break;
@@ -125,13 +130,14 @@ public class App {
                             } else if (opt == 3) { // 3. FINALIZAR PEDIDO
                                 Uteis.limpa_term();
                                 mesa.setTotalPedido();
+                                mesa.pedidos.get(mesa.pedidos.size() - 1).pedidoFinal = true;
                                 mesa.mudaStts();
 
                                 opt = 0;
 
                             } else if (opt == 4) { // 4. CANCELAR PEDIDO
                                 Uteis.limpa_term();
-                                mesa.cancelPedido();
+                                ped_sec.cancelPedido();
                                 mesa.setTotalPedido();
                                 opt = 0;
 
@@ -143,9 +149,10 @@ public class App {
                         } while (opt != 0);
 
                     } else if (opt == 3) { // --> 3. VERIFICAR PEDIDOS.
+                        Pedido ped_sec = mesa.pedidos.get(mesa.pedidos.size() - 1);
                         Uteis.limpa_term();
                         mesa.setTotalPedido();
-                        System.out.println(mesa.exibPedi(menuList)); 
+                        System.out.println(ped_sec.exibPedi(menuList)); 
 
                     } else if (opt == 4) { // --> 4. FECHAR CONTA.
                         Uteis.limpa_term();
