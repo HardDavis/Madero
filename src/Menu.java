@@ -10,24 +10,15 @@ public class Menu{
             String preco = (menuList.get(i).getValue() < 10.00) ? String.format("0%.2f", menuList.get(i).getValue()) : String.format("%.2f", menuList.get(i).getValue());
             String num_name = (i+1) + " - " + menuList.get(i).getName();
             int tam = 30 - num_name.length() + 10;
-            menu.append("\n" + (i+1) + " - " + menuList.get(i).getName() + dots(tam) + "R$" + preco);            
+            menu.append("\n" + (i+1) + " - " + menuList.get(i).getName() + Uteis.dots(tam) + "R$" + preco);            
         }
         menu.append("\n\n0. Voltar");
         System.out.println(menu.toString());
     }
 
-    public static String dots(int tamanho) {
-        StringBuilder sequencia = new StringBuilder();
-        for (int i = 0; i < tamanho; i++) {
-            sequencia.append(".");
-        }
-        return sequencia.toString();
-    }
-
     public void item_info(int index, ArrayList<Item> menuList){
         System.out.println(menuList.get(index - 1));
     }
-
 
     public void cria_itens(ArrayList<Item> menuList){
         menuList.add(0, new Item("Porção de Batatas Fritas", 10, "Batata", "100g", true));

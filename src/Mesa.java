@@ -42,12 +42,12 @@ public class Mesa {
         for (int i = 0; i < mesaList.get(opt_me - 1).pedido.size(); i++) {
             if (menuList.get(pd - 1).getName() == mesaList.get(opt_me - 1).pedido.get(i).getName()) {
                 mesaList.get(opt_me - 1).pedido.remove(i);
-                limpa_term();
+                Uteis.limpa_term();
                 System.out.println("\n1 " + menuList.get(pd - 1).getName() + " foi removido do pedido!\n");
                 break;
             } else if (i == mesaList.get(opt_me - 1).pedido.size() - 1
                     && menuList.get(pd - 1).getName() != mesaList.get(opt_me - 1).pedido.get(i).getName()) {
-                limpa_term();
+                Uteis.limpa_term();
                 System.out.println("\nNão existe esse item no pedido!\n");
             }
         }
@@ -71,7 +71,7 @@ public class Mesa {
         pedido.setLength(0);
         if (mesaList.get(opt_me - 1).pedido.size() != 0) {
             for (int i = 0; i < mesaList.get(opt_me - 1).pedido.size(); i++) {
-                String preco = format_prec(mesaList.get(opt_me - 1).pedido.get(i).getValue());
+                String preco = Uteis.format_prec(mesaList.get(opt_me - 1).pedido.get(i).getValue());
                 boolean unicidade = true;
                 String num_name = (i + 1) + " - " + mesaList.get(opt_me - 1).pedido.get(i).getName();
                 int tam = 30 - num_name.length() + 10;
@@ -85,19 +85,18 @@ public class Mesa {
                         }
                     }
                     if (unicidade) {
-                        int qnt = quantity(opt_me, mesaList, mesaList.get(opt_me - 1).pedido.get(i).getName());
+                        int qnt = Uteis.quantity(opt_me, mesaList, mesaList.get(opt_me - 1).pedido.get(i).getName());
 
-                        pedido.append(qnt + "x " + mesaList.get(opt_me - 1).pedido.get(i).getName() + dots(tam) + "R$"
+                        pedido.append(qnt + "x " + mesaList.get(opt_me - 1).pedido.get(i).getName() + Uteis.dots(tam) + "R$"
                                 + preco + "\n");
                     }
                 }
             }
-            pedido.append(space_bet(48, "\nTotal:", "R$" + format_prec(mesaList.get(opt_me - 1).totalPedido) + "\n"));
-            /* pedido.append("\nTotal: " + "R$" + format_prec(mesaList.get(opt_me - 1).totalPedido)  + "\n"); */
+            pedido.append(Uteis.space_bet(48, "\nTotal:", "R$" + Uteis.format_prec(mesaList.get(opt_me - 1).totalPedido) + "\n"));
         } else {
             pedido.append("\nPedido vazio\n");
         }
-        System.out.println(pedido);
+        /* System.out.println(pedido); */
         return pedido.toString();
     }
 
@@ -109,7 +108,7 @@ public class Mesa {
     public boolean fecharConta(int opt_me, ArrayList<Mesa> mesaList, ArrayList<Item> menuList) {
         int form_pag;
         boolean pag_stts;
-        String valor = format_prec(getTotalPedido(opt_me, mesaList));
+        String valor = Uteis.format_prec(getTotalPedido(opt_me, mesaList));
 
         exibPedi(opt_me, mesaList, menuList);
 
@@ -123,7 +122,7 @@ public class Mesa {
             form_pag = scan.nextInt();
 
             if (form_pag == 1) {
-                limpa_term();
+                Uteis.limpa_term();
                 String pagName = "Dinheiro";
                 System.out.print("FORMA DE PAGAMENTO: DINHEIRO\n");
 
@@ -134,7 +133,7 @@ public class Mesa {
                 int car_tip;
 
                 while (true) {
-                    limpa_term();
+                    Uteis.limpa_term();
                     System.out.print("FORMA DE PAGAMENTO: CARTÃO\n");
 
                     System.out.print("   1. Débito\n" +
@@ -144,7 +143,7 @@ public class Mesa {
                     car_tip = scan.nextInt();
 
                     if (car_tip == 1) {
-                        limpa_term();
+                        Uteis.limpa_term();
                         String pagName = "Cartão Débito";
                         System.out.print("FORMA DE PAGAMENTO: Cartão Débito\n");
                         System.out.println("Valor: R$" + valor);
@@ -154,7 +153,7 @@ public class Mesa {
                         }
 
                     } else if (car_tip == 2) {
-                        limpa_term();
+                        Uteis.limpa_term();
                         String pagName = "Cartão Crédito";
                         System.out.print("FORMA DE PAGAMENTO: Cartão Crédito\n");
                         System.out.println("Valor: R$" + valor);
@@ -171,7 +170,7 @@ public class Mesa {
                 }
 
             } else if (form_pag == 3) {
-                limpa_term();
+                Uteis.limpa_term();
                 String pagName = "PIX";
                 System.out.print("FORMA DE PAGAMENTO: PIX\n");
 
@@ -181,7 +180,7 @@ public class Mesa {
                 form_pag = confirma_pag(pagName, form_pag, opt_me, mesaList);
 
             } else {
-                limpa_term();
+                Uteis.limpa_term();
                 System.out.println("Opção Inválida.\n");
             }
 
@@ -191,7 +190,7 @@ public class Mesa {
         } else {
             pag_stts = true;
         }
-        limpa_term();
+        Uteis.limpa_term();
         return pag_stts;
     }
 
@@ -202,8 +201,8 @@ public class Mesa {
             confirma = scan.next();
 
             if ("PAGAR".equals(confirma.toUpperCase().trim())) {
-                limpa_term();
-                System.out.println("Pagamento realizado");
+                Uteis.limpa_term();
+                System.out.println("Pagamento realizado\n");
                 System.out.println("Deseja emitir a Nota Fiscal?\n" +
                         "     1. Sim\n" +
                         "     2. Não");
@@ -236,60 +235,18 @@ public class Mesa {
         LocalDateTime dataHoraAtual = LocalDateTime.now();
         DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy\t\t\t      HH:mm:ss");
         String dataHoraFormatada = dataHoraAtual.format(formatador);
-        
+
         StringBuffer notinha = new StringBuffer();
-        
+
         String line = "----------------------------------------------\n";
         int tam = line.length();
 
-        notinha.append(space_cen(tam, "The Flavor") + line);
-        notinha.append(exibPedi(opt_me, mesaList, menuList) + line);
-        notinha.append(space_bet(tam-1, pagName, "R$" + format_prec(mesaList.get(opt_me - 1).getTotalPedido(opt_me, mesaList))));
+        notinha.append(Uteis.space_cen(tam, "The Flavor") + line);
+        notinha.append(exibPedi(opt_me, mesaList, menuList) +line);
+        notinha.append(Uteis.space_bet(tam - 1, pagName,
+                "R$" + Uteis.format_prec(mesaList.get(opt_me - 1).getTotalPedido(opt_me, mesaList))));
         notinha.append("\n" + dataHoraFormatada);
 
         return notinha.toString();
-    }
-    
-    private String space_bet(int tam, String a, String b){
-        int space_bet = (tam - a.length() - b.length());
-        String frm_str = String.format("%s" + "%" + space_bet + "s" + "%s", a, "", b);
-        
-        return frm_str;
-    }
-
-    private String space_cen(int tam, String a){
-        int space_cen = (tam - a.length()) / 2;
-        String frm_str = String.format("%" + space_cen + "s%s%" + space_cen + "s" + "\n", "", a, "");
-        
-        return frm_str;
-    }
-
-    private static String dots(int tamanho) {
-        StringBuilder sequencia = new StringBuilder();
-        for (int i = 0; i < tamanho; i++) {
-            sequencia.append(".");
-        }
-        return sequencia.toString();
-    }
-
-    private int quantity(int opt_me, ArrayList<Mesa> mesaList, String item) {
-        int qtd = 0;
-        for (int i = 0; i < mesaList.get(opt_me - 1).pedido.size(); i++) {
-            if (item == mesaList.get(opt_me - 1).pedido.get(i).getName()) {
-                qtd++;
-            }
-        }
-        return qtd;
-    }
-
-    private static void limpa_term() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-    }
-
-    private String format_prec(double val) {
-        String preco = (val < 10.00) ? String.format("0%.2f", val) : String.format("%.2f", val);
-
-        return preco;
     }
 }
