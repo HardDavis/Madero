@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class Uteis {
     public static void limpa_term() {
         System.out.print("\033[H\033[2J");
@@ -33,14 +31,4 @@ public class Uteis {
 
         return frm_str;
     }
-
-    public static int quantity(int opt_me, ArrayList<Mesa> mesaList, String item) {
-        int qtd = 0;
-        for (int i = 0; i < mesaList.get(opt_me - 1).pedido.size(); i++) {
-            if (item == mesaList.get(opt_me - 1).pedido.get(i).getName()) {
-                qtd++;
-            }
-        }
-        return qtd;
-    } 
 }

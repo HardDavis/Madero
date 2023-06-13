@@ -22,20 +22,21 @@ public class App {
                 "4. Fechar conta\n" +
                 "\n0. Voltar";
 
-        do {
-            Uteis.limpa_term();
+        Uteis.limpa_term();
 
+        do {
             mesas.exibir_mesas(mesaList); // EXIBE MESAS
 
             System.out.print("\nEscolha a mesa: "); // ESCOLHA DE MESA
             opt_me = scan.nextInt();
 
             Uteis.limpa_term();
-
-            if (opt_me != 0) {
+            
+            if (opt_me > 0 && opt_me <= mesaList.size()) {
+                Mesa mesa = mesaList.get(opt_me - 1);
                 boolean aux = true;
                 Boolean volta = false;
-
+                
                 Uteis.limpa_term();
                 do {
                     System.out.println(opcoes);
@@ -68,7 +69,7 @@ public class App {
                         int pd;
 
                         do {
-                            System.out.println(mesas.exibPedi(opt_me, mesaList, menuList)); 
+                            System.out.println(mesa.exibPedi(menuList)); 
 
                             if (mesaList.get(opt_me - 1).pedido.size() != 0) {
                                 System.out.println(
@@ -83,7 +84,7 @@ public class App {
                             if (opt == 1) { // 1. ADICIONA ITEM
                                 Uteis.limpa_term();
                                 do {
-                                    System.out.println(mesas.exibPedi(opt_me, mesaList, menuList)); 
+                                    System.out.println(mesa.exibPedi(menuList)); 
                                     menu.exibir_menu(menuList);
 
                                     System.out.print("\nEscolha o item a ser adicionado ao pedido: ");
@@ -91,7 +92,8 @@ public class App {
                                     Uteis.limpa_term();
 
                                     if (pd > 0 && pd <= menuList.size()) {
-                                        mesas.addItem(pd, opt_me, menuList, mesaList);
+                                        /* mesa.addItem(pd, opt_me, menuList, mesaList); */
+                                        mesa.addItem(pd, menuList);
                                         volta = true;
                                     } else if (pd == 0 && !volta) {
                                         opt = 0;
@@ -110,8 +112,8 @@ public class App {
                                     pd = scan.nextInt();
 
                                     if (pd > 0 && pd <= menuList.size()) {
-                                        mesas.remov_item(pd, opt_me, menuList, mesaList);
-                                        mesas.setTotalPedido(opt_me, mesaList);
+                                        mesa.remov_item(pd, menuList);
+                                        mesa.setTotalPedido();
                                     } else if (pd == 0) {
                                         break;
                                     } else {
@@ -122,15 +124,15 @@ public class App {
 
                             } else if (opt == 3) { // 3. FINALIZAR PEDIDO
                                 Uteis.limpa_term();
-                                mesas.setTotalPedido(opt_me, mesaList);
-                                mesas.mudaStts(opt_me, mesaList);
+                                mesa.setTotalPedido();
+                                mesa.mudaStts();
 
                                 opt = 0;
 
                             } else if (opt == 4) { // 4. CANCELAR PEDIDO
                                 Uteis.limpa_term();
-                                mesas.cancelPedido(opt_me, mesaList);
-                                mesas.setTotalPedido(opt_me, mesaList);
+                                mesa.cancelPedido();
+                                mesa.setTotalPedido();
                                 opt = 0;
 
                             } else if (opt > 4 || opt < 0) { // OPÇÕES INVÁLIDAS
@@ -142,12 +144,12 @@ public class App {
 
                     } else if (opt == 3) { // --> 3. VERIFICAR PEDIDOS.
                         Uteis.limpa_term();
-                        mesas.setTotalPedido(opt_me, mesaList);
-                        System.out.println(mesas.exibPedi(opt_me, mesaList, menuList)); 
+                        mesa.setTotalPedido();
+                        System.out.println(mesa.exibPedi(menuList)); 
 
                     } else if (opt == 4) { // --> 4. FECHAR CONTA.
                         Uteis.limpa_term();
-                        boolean pag_stts = mesas.fecharConta(opt_me, mesaList, menuList);
+                        boolean pag_stts = mesa.fecharConta(menuList);
 
                         if (pag_stts) {
                             aux = false;
@@ -155,13 +157,15 @@ public class App {
 
                     } /*
                        * else if (opt == 5) {
-                       * System.out.println(mesas.nota_fiscal(opt_me, mesaList, menuList));
+                       * System.out.println(mesa.nota_fiscal(opt_me, mesaList, menuList));
                        * int a = scan.nextInt();
                        * }
                        */ else if (opt == 0) { // --> VOLTAR PARA SELEÇÃO DE MESA.
                         aux = false;
                     }
                 } while (aux);
+            } else if (opt_me < 0 || opt_me > mesaList.size()) {
+                System.out.println("Opção Inválida\n");
             }
 
         } while (opt_me != 0); // --> ENCERRAR PROGRAMA
