@@ -9,7 +9,7 @@ public class Menu{
         for (int i = 0; i < menuList.size(); i++) {
             String preco = (menuList.get(i).getValue() < 10.00) ? String.format("0%.2f", menuList.get(i).getValue()) : String.format("%.2f", menuList.get(i).getValue());
             String num_name = (i+1) + " - " + menuList.get(i).getName();
-            int tam = 30 - num_name.length() + 10;
+            int tam = 39 - num_name.length();
             menu.append("\n" + (i+1) + " - " + menuList.get(i).getName() + Uteis.dots(tam) + "R$" + preco);            
         }
         menu.append("\n\n0. Voltar");

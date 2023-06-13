@@ -233,7 +233,7 @@ public class Mesa {
     public String nota_fiscal(int opt_me, String pagName, ArrayList<Mesa> mesaList, ArrayList<Item> menuList) {
 
         LocalDateTime dataHoraAtual = LocalDateTime.now();
-        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy\t\t\t      HH:mm:ss");
+        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy\t\t\t      HH:mm:ss\n");
         String dataHoraFormatada = dataHoraAtual.format(formatador);
 
         StringBuffer notinha = new StringBuffer();
@@ -241,11 +241,15 @@ public class Mesa {
         String line = "----------------------------------------------\n";
         int tam = line.length();
 
+        notinha.append("\n" + line);
         notinha.append(Uteis.space_cen(tam, "The Flavor") + line);
         notinha.append(exibPedi(opt_me, mesaList, menuList) +line);
         notinha.append(Uteis.space_bet(tam - 1, pagName,
                 "R$" + Uteis.format_prec(mesaList.get(opt_me - 1).getTotalPedido(opt_me, mesaList))));
         notinha.append("\n" + dataHoraFormatada);
+        notinha.append(line);
+        notinha.append(Uteis.space_cen(tam, "Volte Sempre!"));
+        notinha.append(line);
 
         return notinha.toString();
     }
