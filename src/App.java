@@ -31,14 +31,17 @@ public class App {
             opt_me = scan.nextInt();
 
             Uteis.limpa_term();
-            
+
             if (opt_me > 0 && opt_me <= mesaList.size()) {
                 Mesa mesa = mesaList.get(opt_me - 1);
                 boolean aux = true;
                 Boolean volta = false;
-                
+
                 Uteis.limpa_term();
                 do {
+                    /* 1
+                     *
+                     */
                     System.out.println(opcoes);
 
                     System.out.print("\nEscolha uma opção: ");
@@ -62,7 +65,7 @@ public class App {
                                 System.out.println("Opção Inválida\n");
                             }
 
-                        } while (opt != 0);
+                        } while (opt > 0 && opt <= menuList.size());
 
                     } else if (opt == 2) { // --> 2. FAZER PEDIDO/ABRIR CONTA
                         Uteis.limpa_term();
@@ -71,11 +74,12 @@ public class App {
                         if (mesa.pedidos.size() == 0 || mesa.pedidos.get(mesa.pedidos.size() - 1).pedidoFinal) {
                             mesa.pedidos.add(new Pedido());
                         }
+
                         Pedido ped_sec = mesa.pedidos.get(mesa.pedidos.size() - 1);
-                        
+
                         do {
-                            
-                            System.out.println(ped_sec.exibPedi(menuList)); 
+
+                            System.out.println(ped_sec.exibPedi(menuList));
                             if (ped_sec.pedido.size() != 0) {
                                 System.out.println(
                                         "1. Adicionar item\n2. Remover item\n3. Finalizar pedido\n4. Cancelar pedido\n\n0 - Voltar");
@@ -89,7 +93,7 @@ public class App {
                             if (opt == 1) { // 1. ADICIONA ITEM
                                 Uteis.limpa_term();
                                 do {
-                                    System.out.println(ped_sec.exibPedi(menuList)); 
+                                    System.out.println(ped_sec.exibPedi(menuList));
                                     menu.exibir_menu(menuList);
 
                                     System.out.print("\nEscolha o item a ser adicionado ao pedido: ");
@@ -97,7 +101,6 @@ public class App {
                                     Uteis.limpa_term();
 
                                     if (pd > 0 && pd <= menuList.size()) {
-                                        /* mesa.addItem(pd, opt_me, menuList, mesaList); */
                                         ped_sec.addItem(pd, menuList);
                                         volta = true;
                                     } else if (pd == 0 && !volta) {
@@ -110,22 +113,31 @@ public class App {
 
                             } else if (opt == 2) { // 2. REMOVE ITEM
                                 Uteis.limpa_term();
+
                                 menu.exibir_menu(menuList);
 
                                 do {
-                                    System.out.print("\nQual item deseja remover: ");
-                                    pd = scan.nextInt();
-
-                                    if (pd > 0 && pd <= menuList.size()) {
-                                        ped_sec.remov_item(pd, menuList);
-                                        mesa.setTotalPedido();
-                                    } else if (pd == 0) {
-                                        break;
+                                    if (menuList.size() > 0){
+                                        System.out.print("\nQual item deseja remover: ");
+                                        pd = scan.nextInt();
+                                        
+                                        if (pd == 0 || ped_sec.pedido.size() == 0) {
+                                            opt = 0;
+                                            break;
+                                        } else if (pd > 0 && pd <= menuList.size()) {
+                                            mesa.pedidos.get(mesa.pedidos.size() - 1);
+                                            ped_sec.remov_item(pd, menuList);
+                                            mesa.setTotalPedido();
+                                            break;
+                                        } else if (pd < 0 || pd > menuList.size()) {
+                                            System.out.println("Opção inválida.");
+                                        }
                                     } else {
-                                        System.out.println("Opção inválida.");
+                                        System.out.println("A lista está vazia.");
+                                        break;
                                     }
 
-                                } while (pd < 0 || pd > menuList.size());
+                                } while (pd != 0 || ped_sec.pedido.size() != 0);
 
                             } else if (opt == 3) { // 3. FINALIZAR PEDIDO
                                 Uteis.limpa_term();
@@ -149,10 +161,15 @@ public class App {
                         } while (opt != 0);
 
                     } else if (opt == 3) { // --> 3. VERIFICAR PEDIDOS.
-                        Pedido ped_sec = mesa.pedidos.get(mesa.pedidos.size() - 1);
-                        Uteis.limpa_term();
-                        mesa.setTotalPedido();
-                        System.out.println(ped_sec.exibPedi(menuList)); 
+                        if (mesa.pedidos.size() > 0) {
+                            Pedido ped_sec = mesa.pedidos.get(mesa.pedidos.size() - 1);
+                            Uteis.limpa_term();
+                            mesa.setTotalPedido();
+                            System.out.println(ped_sec.exibPedi(menuList));
+                        } else {
+                            Uteis.limpa_term();
+                            System.out.println("Nenhum pedido foi realizado.\n");
+                        }
 
                     } else if (opt == 4) { // --> 4. FECHAR CONTA.
                         Uteis.limpa_term();
