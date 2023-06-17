@@ -66,7 +66,7 @@ public class Pedido extends Mesa {
             }
             pedido.append(Uteis.space_bet(48, "\nTotal:", "R$" + Uteis.format_prec(this.totalPedido) + "\n"));
         } else {
-            pedido.append("\nPedido vazio\n");
+            pedido.append("Pedido vazio\n");
         }
         return pedido.toString();
     }
@@ -74,7 +74,7 @@ public class Pedido extends Mesa {
     public void cancelPedido() {
         this.pedido.clear();
 
-        System.out.println("\nPedido cancelado!\n");
+        System.out.println("Pedido cancelado!\n");
     }
 
     public int quantity(String item) {

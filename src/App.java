@@ -39,13 +39,11 @@ public class App {
 
                 Uteis.limpa_term();
                 do {
-                    /* 1
-                     *
-                     */
                     System.out.println(opcoes);
 
                     System.out.print("\nEscolha uma opção: ");
                     opt = scan.nextInt();
+                    Uteis.limpa_term();
 
                     // SELEÇÃO DAS OPÇÕES A PARTIR DAQUI
                     if (opt == 1) { // --> 1. EXIBE MENU
@@ -57,11 +55,10 @@ public class App {
                                     "\nDigite o número do item para mostrar suas informações ou 0 para voltar: ");
                             opt = scan.nextInt();
 
+                            Uteis.limpa_term();
                             if (opt > 0 && opt <= menuList.size()) {// --> EXIBI AS INFORÇÕES DO ITEM SELECIONADO
-                                Uteis.limpa_term();
                                 System.out.println(menuList.get(opt - 1));
                             } else if (opt < 0 || opt > menuList.size()) {
-                                Uteis.limpa_term();
                                 System.out.println("Opção Inválida\n");
                             }
 
@@ -117,10 +114,10 @@ public class App {
                                 menu.exibir_menu(menuList);
 
                                 do {
-                                    if (menuList.size() > 0){
+                                    if (menuList.size() > 0) {
                                         System.out.print("\nQual item deseja remover: ");
                                         pd = scan.nextInt();
-                                        
+
                                         if (pd == 0 || ped_sec.pedido.size() == 0) {
                                             opt = 0;
                                             break;
@@ -179,13 +176,10 @@ public class App {
                             aux = false;
                         }
 
-                    } /*
-                       * else if (opt == 5) {
-                       * System.out.println(mesa.nota_fiscal(opt_me, mesaList, menuList));
-                       * int a = scan.nextInt();
-                       * }
-                       */ else if (opt == 0) { // --> VOLTAR PARA SELEÇÃO DE MESA.
+                    } else if (opt == 0) { // --> VOLTAR PARA SELEÇÃO DE MESA.
                         aux = false;
+                    } else {
+                        System.out.println("Opção Inválida\n");
                     }
                 } while (aux);
             } else if (opt_me < 0 || opt_me > mesaList.size()) {
