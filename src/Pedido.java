@@ -7,6 +7,11 @@ public class Pedido extends Mesa {
     public void addItem(int pd, ArrayList<Item> menuList) {
         this.pedido.add(menuList.get(pd - 1));
         this.setTotalPedido();
+        String perso;
+        System.out.println("Deseja personalizar " + menuList.get(pd - 1).getName() + "? Aperte \"ENTER\" para não mudar nada: ");
+        System.out.println("----------------------------------------------------------------------------------");
+        perso = scan.nextLine();
+        Uteis.limpa_term();
     }
 
     public void remov_item(int pd, ArrayList<Item> menuList) {
@@ -85,5 +90,5 @@ public class Pedido extends Mesa {
             }
         }
         return qtd;
-    } 
+    }
 }
